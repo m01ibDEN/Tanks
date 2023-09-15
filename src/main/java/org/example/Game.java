@@ -24,6 +24,7 @@ public class Game extends JPanel implements Runnable {
     public final int worldHeight = tileSize * maxWorldRow;
     final int FPS = 60;
     public String mapNum = "1";
+    public int mapEnemiesCount = 3;
     public Player player = new Player(this);
     public Entity[] enemies = new Entity[10];
     public Setter setter = new Setter(this);
@@ -46,11 +47,23 @@ public class Game extends JPanel implements Runnable {
         gameThread.start();
     }
     public void restart() {
-        for(int i = 0; i < enemies.length; i++)
-            if(enemies[i] != null) enemies[i].setDefaultValues();
-        setup();
-        player.setDefaultValues();
-        player.restart();
+        if(!player.live) {
+            for (int i = 0; i < enemies.length && enemies[i] != null; i++)
+                enemies[i].setDefaultValues();
+            setup();
+            player.setDefaultValues();
+            player.restart();
+        }
+        else if(mapEnemiesCount == 0) {
+            player.restart();
+            mapNum = String.valueOf(Integer.parseInt(mapNum) + 1);
+            try {
+                tileM = new TileManager(this);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            setup();
+        }
     }
     @Override
     public void run() {
@@ -80,9 +93,8 @@ public class Game extends JPanel implements Runnable {
 
     public void update() {
         player.update();
-        for (Entity enemy : enemies) {
-            if (enemy != null) enemy.update();
-        }
+        for(int i = 0; i < enemies.length && enemies[i] != null; i++)
+            enemies[i].update();
 
     }
     public void paintComponent(Graphics g) {
@@ -90,9 +102,8 @@ public class Game extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         tileM.draw(g2);
         player.draw(g2);
-        for (Entity enemy : enemies) {
-            if (enemy != null) enemy.draw(g2);
-        }
+        for(int i = 0; i < enemies.length && enemies[i] != null; i++)
+            enemies[i].draw(g2);
         g2.dispose();
     }
 }

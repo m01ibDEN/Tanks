@@ -72,10 +72,9 @@ public class Player extends Entity{
                 amms[timeInterval].targetWorldY = targetY;
             }
 
-            for (int i = 0; amms != null && i < amms.length; i++)
-                if (amms[i] != null) {
-                    amms[i].update();
-                }
+            for (int i = 0; i < amms.length && amms[i] != null; i++)
+                amms[i].update();
+            if(game.mapEnemiesCount == 0) game.restart();
             if(health == 0) {
                 live = false;
                 collisionOn = false;
@@ -92,10 +91,8 @@ public class Player extends Entity{
             default -> null;
         };
         if(!live) img = null;
-        for(int i = 0; amms != null && i < amms.length; i++)
-            if(amms[i] != null) {
-                amms[i].draw(g2);
-            }
+        for(int i = 0; i < amms.length && amms[i] != null; i++)
+            amms[i].draw(g2);
 
         g2.drawImage(img, screenX, screenY, game.tileSize, game.tileSize, null);
     }

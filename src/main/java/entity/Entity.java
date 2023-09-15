@@ -68,10 +68,8 @@ public class Entity {
             g2.drawImage(img, screenX, screenY, game.tileSize, game.tileSize, null);
         }
 
-        for(int i = 0; amms != null && i < amms.length; i++)
-            if(amms[i] != null) {
-                amms[i].draw(g2);
-            }
+        for(int i = 0; amms != null && i < amms.length && amms[i] != null; i++)
+            amms[i].draw(g2);
     }
 
     public void update() {}

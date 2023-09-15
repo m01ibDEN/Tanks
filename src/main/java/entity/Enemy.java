@@ -111,10 +111,8 @@ public class Enemy extends Entity{
                 if (direct.equals("right")) worldX += speed;
             }
 
-            for (int i = 0; amms != null && i < amms.length; i++)
-                if (amms[i] != null) {
-                    amms[i].update();
-                }
+            for (int i = 0; amms != null && i < amms.length && amms[i] != null; i++)
+                amms[i].update();
 
             if (shot) {
                 shot = false;
@@ -141,6 +139,7 @@ public class Enemy extends Entity{
                 live = false;
                 collisionOn = false;
                 amms = null;
+                game.mapEnemiesCount--;
             }
         }
     }
