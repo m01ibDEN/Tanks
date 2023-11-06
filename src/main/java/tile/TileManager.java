@@ -4,41 +4,29 @@ import org.example.Game;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class TileManager {
     Game game;
     public Tile[] tile;
-    public int mapTileNum[][];
+    public int[][] mapTileNum;
+    public Maze maze;
     public TileManager(Game game) throws IOException {
         this.game = game;
         tile = new Tile[10];
         mapTileNum = new int[game.maxWorldCol][game.maxWorldRow];
         getTileImage();
-        loadMap("C:\\Users\\Danila\\IdeaProjects\\Course4\\src\\main\\resources\\maps\\" + game.mapNum + ".txt");
+        maze = new Maze(game.maxWorldCol, game.maxWorldRow);
+        loadMap();
     }
-    public void loadMap(String filePath) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
-        int col = 0;
-        int row = 0;
-        String line;
-        String numbers[];
-        while(col < game.maxWorldCol && row < game.maxWorldRow) {
-            line = br.readLine();
-            while(col < game.maxWorldCol) {
-                numbers = line.split(" ");
-                mapTileNum[col][row] = Integer.parseInt(numbers[col]);
-                col++;
-            }
-            if(col == game.maxWorldCol) {
-                col = 0;
-                row++;
+    public void loadMap() throws IOException {
+        maze.mazeGenerator();
+        for(int i = 0; i < game.maxWorldCol; i++) {
+            for(int j = 0; j < game.maxWorldRow; j++) {
+                mapTileNum[i][j] = maze.getField(i, j);
             }
         }
-        br.close();
     }
     public void getTileImage() throws IOException {
         tile[0] = new Tile();

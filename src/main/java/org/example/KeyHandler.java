@@ -18,7 +18,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_S -> downPressed = true;
             case KeyEvent.VK_A -> leftPressed = true;
             case KeyEvent.VK_D -> rightPressed = true;
-            case KeyEvent.VK_SPACE -> spacePressed = false;
+            case KeyEvent.VK_SPACE -> spacePressed = true;
         }
     }
 
@@ -29,7 +29,7 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_S -> downPressed = false;
             case KeyEvent.VK_A -> leftPressed = false;
             case KeyEvent.VK_D -> rightPressed = false;
-            case KeyEvent.VK_SPACE -> spacePressed = true;
+            case KeyEvent.VK_SPACE -> spacePressed = false;
         }
     }
 }

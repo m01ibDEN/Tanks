@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Entity {
     public int health;
@@ -42,6 +44,12 @@ public class Entity {
         }
     }
     public void setDefaultValues() {
+        ArrayList<Point> points = game.tileM.maze.freeCells();
+        Random random = new Random();
+        int rand = random.nextInt(points.size());
+        worldX = game.tileSize * points.get(rand).x;
+        worldY = game.tileSize * points.get(rand).y;
+        points.remove(rand);
         health = 100;
         live = true;
         speed = 1;

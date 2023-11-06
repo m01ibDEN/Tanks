@@ -17,10 +17,10 @@ public class Amm extends  Entity{
     public Amm(Game game) {
         super(game);
         solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
-        solidArea.width = 1;
-        solidArea.height = 1;
+        solidArea.x = 6;
+        solidArea.y = 6;
+        solidArea.width = 32;
+        solidArea.height = 32;
         speed = 4;
         live = true;
         flag = false;
@@ -30,7 +30,7 @@ public class Amm extends  Entity{
         if(live) {
             if (target.equals("player")) {
                 if(Math.abs(worldX - game.player.worldX) <= 16 && Math.abs(worldY - game.player.worldY) <= 16) {
-                    game.player.health -= 10;
+                    game.player.health -= 5;
                     live = false;
                 }
             }

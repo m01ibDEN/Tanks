@@ -14,17 +14,17 @@ public class Game extends JPanel implements Runnable {
     final public  int originalTileSize = 16;
     final int scale = 3;
     public final int tileSize = originalTileSize * scale;
-    public final int maxScreenCol = 5;
-    public final int maxScreenRow = 5;
+    public final int maxScreenCol = 10;
+    public final int maxScreenRow = 10;
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
-    public final int maxWorldCol = 15;
-    public final int maxWorldRow = 15;
+    public final int maxWorldCol = 25;
+    public final int maxWorldRow = 25;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
     final int FPS = 60;
-    public String mapNum = "1";
-    public int mapEnemiesCount = 3;
+    public int mapEnemiesCount = 10;
+    public TileManager tileM = new TileManager(this);
     public Player player = new Player(this);
     public Entity[] enemies = new Entity[10];
     public Setter setter = new Setter(this);
@@ -32,7 +32,6 @@ public class Game extends JPanel implements Runnable {
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public long iterations = 0;
     Thread gameThread;
-    public TileManager tileM = new TileManager(this);
 
     public Game() throws IOException {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -48,15 +47,14 @@ public class Game extends JPanel implements Runnable {
     }
     public void restart() {
         if(!player.live) {
+            player.setDefaultValues();
             for (int i = 0; i < enemies.length && enemies[i] != null; i++)
                 enemies[i].setDefaultValues();
             setup();
-            player.setDefaultValues();
-            player.restart();
         }
         else if(mapEnemiesCount == 0) {
-            player.restart();
-            mapNum = String.valueOf(Integer.parseInt(mapNum) + 1);
+            mapEnemiesCount = 10;
+            player.setDefaultValues();
             try {
                 tileM = new TileManager(this);
             } catch (IOException e) {
@@ -93,8 +91,9 @@ public class Game extends JPanel implements Runnable {
 
     public void update() {
         player.update();
-        for(int i = 0; i < enemies.length && enemies[i] != null; i++)
+        for(int i = 0; i < enemies.length && enemies[i] != null; i++) {
             enemies[i].update();
+        }
 
     }
     public void paintComponent(Graphics g) {

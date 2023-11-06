@@ -10,18 +10,19 @@ public class Enemy extends Entity{
     public Enemy(Game game) {
         super(game);
         solidArea = new Rectangle();
-        solidArea.x = 12;
-        solidArea.y = 12;
-        solidArea.width = 16;
-        solidArea.height = 16;
+        solidArea.x = 6;
+        solidArea.y = 6;
+        solidArea.width = 32;
+        solidArea.height = 32;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        shotInterval = 45;
         name = "main";
         setDefaultValues();
         getDefaultImage();
     }
     public void playerDetected() {
-        if(Math.abs(worldX - game.player.worldX) <= game.tileSize * 4 && Math.abs(worldY - game.player.worldY) <= game.tileSize * 4) {
+        if(Math.abs(worldX - game.player.worldX) <= game.tileSize * 5 && Math.abs(worldY - game.player.worldY) <= game.tileSize * 5) {
             detectPlayer = true;
             int tileX = worldX / game.tileSize;
             int tileY = worldY / game.tileSize;
@@ -94,6 +95,9 @@ public class Enemy extends Entity{
             game.collisionChecker.left = false;
             game.collisionChecker.right = false;
             game.collisionChecker.checkTile(this);
+            game.collisionChecker.checkPlayer(this);
+            game.collisionChecker.checkEntity(this, game.enemies);
+            game.collisionChecker.checkObject(this, false);
 
             Random random = new Random();
             if (game.iterations % 100 == 0 && !shot) {
@@ -111,7 +115,7 @@ public class Enemy extends Entity{
                 if (direct.equals("right")) worldX += speed;
             }
 
-            for (int i = 0; amms != null && i < amms.length && amms[i] != null; i++)
+            for (int i = 0; i < amms.length && amms[i] != null; i++)
                 amms[i].update();
 
             if (shot) {

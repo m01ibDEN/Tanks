@@ -29,7 +29,6 @@ public class CollisionChecker {
             if (game.tileM.tile[tileNum1].collision || game.tileM.tile[tileNum2].collision) {
                 entity.collisionOn = true;
                 up = true;
-
             }
         }
         if(entity.direct.equals("down")) {
@@ -61,9 +60,7 @@ public class CollisionChecker {
         }
     }
 
-    public int checkObject(Entity entity, boolean player) {
-        int index = 999;
-
+    public void checkObject(Entity entity, boolean player) {
         for(int i = 0; i < game.obj.length; i++) {
             if(game.obj[i] != null) {
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
@@ -78,9 +75,6 @@ public class CollisionChecker {
                         if(game.obj[i].collision) {
                             entity.collisionOn = true;
                         }
-                        if(player) {
-                            index = i;
-                        }
                     }
                 }
                 if(entity.direct.equals("down")) {
@@ -88,9 +82,6 @@ public class CollisionChecker {
                     if(entity.solidArea.intersects(game.obj[i].solidArea)) {
                         if(game.obj[i].collision) {
                             entity.collisionOn = true;
-                        }
-                        if(player) {
-                            index = i;
                         }
                     }
                 }
@@ -100,9 +91,6 @@ public class CollisionChecker {
                         if(game.obj[i].collision) {
                             entity.collisionOn = true;
                         }
-                        if(player) {
-                            index = i;
-                        }
                     }
                 }
                 if(entity.direct.equals("right")) {
@@ -110,9 +98,6 @@ public class CollisionChecker {
                     if(entity.solidArea.intersects(game.obj[i].solidArea)) {
                         if(game.obj[i].collision) {
                             entity.collisionOn = true;
-                        }
-                        if(player) {
-                            index = i;
                         }
                     }
                 }
@@ -122,16 +107,14 @@ public class CollisionChecker {
 
                 game.obj[i].solidArea.x = game.obj[i].solidAreaDefaultX;
                 game.obj[i].solidArea.y = game.obj[i].solidAreaDefaultY;
-
             }
         }
 
-        return index;
     }
 
     public void checkEntity(Entity entity, Entity[] target) {
         for(int i = 0; i < target.length; i++) {
-            if(target[i] != null && target[i].live) {
+            if(target[i] != null && entity != target[i] && target[i].live) {
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
 
@@ -173,4 +156,42 @@ public class CollisionChecker {
         }
     }
 
+    public void checkPlayer(Entity entity) {
+        entity.solidArea.x = entity.worldX + entity.solidArea.x;
+        entity.solidArea.y = entity.worldY + entity.solidArea.y;
+
+        game.player.solidArea.x = game.player.worldX + game.player.solidArea.x;
+        game.player.solidArea.y = game.player.worldY + game.player.solidArea.y;
+
+        if(entity.direct.equals("up")) {
+            entity.solidArea.y -= entity.speed;
+            if(entity.solidArea.intersects(game.player.solidArea)) {
+                entity.collisionOn = true;
+            }
+        }
+        if(entity.direct.equals("down")) {
+            entity.solidArea.y += entity.speed;
+            if(entity.solidArea.intersects(game.player.solidArea)) {
+                entity.collisionOn = true;
+            }
+        }
+        if(entity.direct.equals("left")) {
+            entity.solidArea.x -= entity.speed;
+            if(entity.solidArea.intersects(game.player.solidArea)) {
+                entity.collisionOn = true;
+            }
+        }
+        if(entity.direct.equals("right")) {
+            entity.solidArea.x += entity.speed;
+            if(entity.solidArea.intersects(game.player.solidArea)) {
+                entity.collisionOn = true;
+            }
+        }
+
+        entity.solidArea.x = entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.solidAreaDefaultY;
+
+        game.player.solidArea.x = game.player.solidAreaDefaultX;
+        game.player.solidArea.y = game.player.solidAreaDefaultY;
+    }
 }
