@@ -30,7 +30,7 @@ public class Amm extends  Entity{
         if(live) {
             if (target.equals("player")) {
                 if(Math.abs(worldX - game.player.worldX) <= 16 && Math.abs(worldY - game.player.worldY) <= 16) {
-                    game.player.health -= 5;
+                    game.player.health -= damage;
                     live = false;
                 }
             }
@@ -39,7 +39,7 @@ public class Amm extends  Entity{
                 for (int i = 0; i < game.enemies.length; i++)
                     if (game.enemies[i] != null && game.enemies[i].live)
                         if (Math.abs(worldX - game.enemies[i].worldX) <= 16 && Math.abs(worldY - game.enemies[i].worldY) <= 16) {
-                            game.enemies[i].health -= 10;
+                            game.enemies[i].health -= damage;
                             live = false;
                         }
 

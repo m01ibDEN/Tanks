@@ -18,17 +18,18 @@ public class Game extends JPanel implements Runnable {
     public final int maxScreenRow = 10;
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
-    public final int maxWorldCol = 25;
-    public final int maxWorldRow = 25;
+    public final int maxWorldCol = 10;
+    public final int maxWorldRow = 10;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
     final int FPS = 60;
-    public int mapEnemiesCount = 10;
+    public int mapEnemiesCount = 1;
+    public int mapObjectsCount = 0;
     public TileManager tileM = new TileManager(this);
     public Player player = new Player(this);
-    public Entity[] enemies = new Entity[10];
+    public Entity[] enemies = new Entity[mapEnemiesCount];
+    public SuperObject[] obj = new SuperObject[mapObjectsCount];
     public Setter setter = new Setter(this);
-    public SuperObject[] obj = new SuperObject[10];
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public long iterations = 0;
     Thread gameThread;
@@ -87,10 +88,12 @@ public class Game extends JPanel implements Runnable {
 
     public void setup() {
         setter.setEnemies();
+        setter.setObjects();
     }
 
     public void update() {
         player.update();
+
         for(int i = 0; i < enemies.length && enemies[i] != null; i++) {
             enemies[i].update();
         }
@@ -101,8 +104,13 @@ public class Game extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         tileM.draw(g2);
         player.draw(g2);
-        for(int i = 0; i < enemies.length && enemies[i] != null; i++)
+        for(int i = 0; i < enemies.length && enemies[i] != null; i++) {
             enemies[i].draw(g2);
+        }
+        for(int i = 0; i < obj.length && obj[i] != null; i++) {
+            obj[i].draw(g2);
+        }
+        player.draw(g2);
         g2.dispose();
     }
 }

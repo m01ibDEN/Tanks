@@ -1,6 +1,9 @@
 package org.example;
 
 import entity.Enemy;
+import objects.SuperObject;
+
+import java.util.Random;
 
 public class Setter {
     Game game;
@@ -8,24 +11,16 @@ public class Setter {
         this.game = game;
     }
     public void setEnemies() {
-        game.enemies[0] = new Enemy(game);
+        for(int i = 0; i < game.enemies.length; i++) {
+            game.enemies[i] = new Enemy(game);
+        }
+    }
 
-        game.enemies[1] = new Enemy(game);
-
-        game.enemies[2] = new Enemy(game);
-
-        game.enemies[3] = new Enemy(game);
-
-        game.enemies[4] = new Enemy(game);
-
-        game.enemies[5] = new Enemy(game);
-
-        game.enemies[6] = new Enemy(game);
-
-        game.enemies[7] = new Enemy(game);
-
-        game.enemies[8] = new Enemy(game);
-
-        game.enemies[9] = new Enemy(game);
+    public void setObjects() {
+        String[] names = {"power", "lightning", "heart"};
+        Random random = new Random();
+        for(int i = 0; i < game.obj.length; i++) {
+            game.obj[i] = new SuperObject(game, names[random.nextInt(3)]);
+        }
     }
 }
